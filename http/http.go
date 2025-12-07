@@ -46,7 +46,7 @@ type API[Req any, Res any] struct {
 	Response    Res
 }
 
-func (api *API[Req, Res]) Do() error {
+func (api *API[Req, Res]) Do() (Res, error) {
 	reqURl := api.BaseURL + api.Route
 	var isFirstQuery = true
 	if api.Method != "" {
@@ -81,24 +81,30 @@ func (api *API[Req, Res]) Do() error {
 	log.Println("API Request:", reqURl)
 	req, err := http.NewRequest(string(api.HTTPMethod), reqURl, body)
 	if err != nil {
-		return err
+		return api.Response, err
 	}
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Add("User-Agent", "pan.baidu.com")
 	resp, err := GetClient().Do(req)
 	if err != nil {
-		return err
+		return api.Response, err
 	}
 	defer resp.Body.Close()
 	data, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return err
+		return api.Response, err
 	}
 	log.Println("API Response:", string(data))
 	var errCode types.Error
 	json.Unmarshal(data, &errCode)
 	if errCode.IsError() {
-		return errCode
+		return api.Response, errCode
 	}
-	return json.Unmarshal(data, &api.Response)
+	var res Res
+	err = json.Unmarshal(data, &res)
+	if err != nil {
+		return api.Response, err
+	}
+	api.Response = res
+	return res, nil
 }

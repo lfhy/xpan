@@ -8,26 +8,10 @@ import (
 	"strings"
 )
 
-type Error struct {
-	AuthError    string `json:"error"`
-	AuthErrorMsg string `json:"error_description"`
-	Errno        int    `json:"errno"`
-	ErrMsg       string `json:"errmsg"`
-	RequestId    string `json:"request_id"`
-}
-
-func (e Error) IsError() bool {
-	return !(e.AuthError == "" && e.Errno == 0)
-}
-
-func (e Error) Error() string {
-	if e.AuthErrorMsg != "" {
-		return e.AuthErrorMsg
-	}
-	return e.ErrMsg
-}
-
 func GetReqParams(req any) (query string, body io.Reader) {
+	if req == nil {
+		return
+	}
 	// 如果req是指针则取req指向的对象
 	for reflect.TypeOf(req).Kind() == reflect.Pointer {
 		req = reflect.ValueOf(req).Elem().Interface()

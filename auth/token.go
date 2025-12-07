@@ -20,14 +20,11 @@ type GetTokenRes struct {
 }
 
 func GetToken(req *GetTokenReq) (*GetTokenRes, error) {
-	var res GetTokenRes
 	api := http.API[*GetTokenReq, *GetTokenRes]{
 		BaseURL:    BaseURL,
 		Route:      TokenRoute,
 		HTTPMethod: http.GET,
 		Request:    req,
-		Response:   &res,
 	}
-	err := api.Do()
-	return &res, err
+	return api.Do()
 }

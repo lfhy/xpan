@@ -62,3 +62,11 @@ func TestSetEnv(t *testing.T) {
 	ReadConfig()
 	log.SetLogger(&TestLogger{})
 }
+
+func PrintRes(res any, err error) {
+	if err != nil {
+		log.Println("发生错误:", err)
+	} else {
+		log.Printf("响应结果:%+v", res)
+	}
+}
