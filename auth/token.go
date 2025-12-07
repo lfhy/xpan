@@ -1,0 +1,33 @@
+package auth
+
+import "github.com/lfhy/baidu-pan-client/http"
+
+type GetTokenReq struct {
+	ClientId     string `query:"client_id" default:"$CLIENT_ID"`
+	ClientSecret string `query:"client_secret" default:"$CLIENT_SECRET"`
+	Code         string `query:"code"`
+	GrantType    string `query:"grant_type" default:"authorization_code"`
+	RedirectUri  string `query:"redirect_uri" default:"$REDIRECT_URI"`
+}
+
+type GetTokenRes struct {
+	AccessToken   string `json:"access_token"`
+	ExpiresIn     int64  `json:"expires_in"`
+	RefreshToken  string `json:"refresh_token"`
+	Scope         string `json:"scope"`
+	SessionKey    string `json:"session_key"`
+	SessionSecret string `json:"session_secret"`
+}
+
+func GetToken(req *GetTokenReq) (*GetTokenRes, error) {
+	var res GetTokenRes
+	api := http.API[*GetTokenReq, *GetTokenRes]{
+		BaseURL:    BaseURL,
+		Route:      TokenRoute,
+		HTTPMethod: http.GET,
+		Request:    req,
+		Response:   &res,
+	}
+	err := api.Do()
+	return &res, err
+}
