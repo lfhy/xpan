@@ -17,6 +17,7 @@ type ListReq struct {
 }
 
 type Thumbs struct {
+	Icon string `json:"icon"`
 	Url1 string `json:"url1"`
 	Url2 string `json:"url2"`
 	Url3 string `json:"url3"`

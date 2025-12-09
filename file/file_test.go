@@ -22,3 +22,18 @@ func TestFileListAll(t *testing.T) {
 	})
 	test.PrintRes(res, err)
 }
+
+func TestFilemeta(t *testing.T) {
+	test.TestSetEnv(t)
+	res, err := file.ListAll(&file.ListAllReq{
+		Path: "/",
+	})
+	if err == nil {
+		var req file.FilemetasReq
+		for _, file := range res.List {
+			req.FsIds = append(req.FsIds, file.FsId)
+		}
+		res, err := file.Filemetas(&req)
+		test.PrintRes(res, err)
+	}
+}

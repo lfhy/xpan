@@ -31,7 +31,15 @@ func GetReqParams(req any) (query string, body io.Reader) {
 		if query != "" {
 			data := reflect.ValueOf(req).Field(i)
 			if !data.IsZero() {
-				value = fmt.Sprint(data.Interface())
+				if data.Kind() == reflect.Array || data.Kind() == reflect.Slice {
+					var arrayData []string
+					for i := 0; i < data.Len(); i++ {
+						arrayData = append(arrayData, fmt.Sprint(data.Index(i).Interface()))
+					}
+					value = "[" + strings.Join(arrayData, ",") + "]"
+				} else {
+					value = fmt.Sprint(data.Interface())
+				}
 			}
 			if value == "" {
 				continue
@@ -40,9 +48,17 @@ func GetReqParams(req any) (query string, body io.Reader) {
 		}
 		body := field.Tag.Get("body")
 		if body != "" {
-			data := reflect.ValueOf(req).Field(i).Interface()
-			if data != nil {
-				value = fmt.Sprint(data)
+			data := reflect.ValueOf(req).Field(i)
+			if !data.IsZero() {
+				if data.Kind() == reflect.Array || data.Kind() == reflect.Slice {
+					var arrayData []string
+					for i := 0; i < data.Len(); i++ {
+						arrayData = append(arrayData, fmt.Sprint(data.Index(i).Interface()))
+					}
+					value = "[" + strings.Join(arrayData, ",") + "]"
+				} else {
+					value = fmt.Sprint(data.Interface())
+				}
 			}
 			if value == "" {
 				continue
