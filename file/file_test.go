@@ -37,3 +37,12 @@ func TestFilemeta(t *testing.T) {
 		test.PrintRes(res, err)
 	}
 }
+
+func TestSearch(t *testing.T) {
+	test.TestSetEnv(t)
+	res, err := file.Search(&file.SearchReq{
+		Dir: "/",
+		Key: "test",
+	})
+	test.PrintRes(res, err)
+}
