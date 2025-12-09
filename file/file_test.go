@@ -46,3 +46,62 @@ func TestSearch(t *testing.T) {
 	})
 	test.PrintRes(res, err)
 }
+
+func TestCopyFile(t *testing.T) {
+	test.TestSetEnv(t)
+	res, err := file.Filemanager(&file.FilemanagerReq[file.FileCopyAndMoveItem]{
+		Opera: file.Copy,
+		// cp /test.txt /test/
+		Filelist: []file.FileCopyAndMoveItem{
+			{
+				Path:    "/test.txt",
+				Dest:    "/test",
+				Newname: "test.txt",
+			},
+		},
+	})
+	test.PrintRes(res, err)
+}
+
+func TestMoveFile(t *testing.T) {
+	test.TestSetEnv(t)
+	res, err := file.Filemanager(&file.FilemanagerReq[file.FileCopyAndMoveItem]{
+		Opera: file.Move,
+		// mv /test.txt /test/
+		Filelist: []file.FileCopyAndMoveItem{
+			{
+				Path:    "/test.txt",
+				Dest:    "/test",
+				Newname: "test.txt",
+			},
+		},
+	})
+	test.PrintRes(res, err)
+}
+
+func TestRenameFile(t *testing.T) {
+	test.TestSetEnv(t)
+	res, err := file.Filemanager(&file.FilemanagerReq[file.FileRenameItem]{
+		Opera: file.Rename,
+		// mv /test.txt /test2.txt
+		Filelist: []file.FileRenameItem{
+			{
+				Path:    "/test.txt",
+				Newname: "test2.txt",
+			},
+		},
+	})
+	test.PrintRes(res, err)
+}
+
+func TestDeleteFile(t *testing.T) {
+	test.TestSetEnv(t)
+	res, err := file.Filemanager(&file.FilemanagerReq[file.FileDeleteItem]{
+		Opera: file.Delete,
+		// rm /test.txt
+		Filelist: []file.FileDeleteItem{
+			"/test.txt",
+		},
+	})
+	test.PrintRes(res, err)
+}

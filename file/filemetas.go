@@ -59,6 +59,7 @@ type MediaInfo struct {
 	UseSegment int     `json:"use_segment"`
 	Width      int     `json:"width"`
 }
+
 type FilemetasRes struct {
 	Names any              `json:"names"` //如果查询共享目录，该字段为共享目录文件上传者的uk和账户名称
 	List  []*FilemetasItem `json:"list"`

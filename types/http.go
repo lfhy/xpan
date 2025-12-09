@@ -1,6 +1,7 @@
 package types
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/url"
@@ -53,7 +54,14 @@ func GetReqParams(req any) (query string, body io.Reader) {
 				if data.Kind() == reflect.Array || data.Kind() == reflect.Slice {
 					var arrayData []string
 					for i := 0; i < data.Len(); i++ {
-						arrayData = append(arrayData, fmt.Sprint(data.Index(i).Interface()))
+						// 如果是结构体则使用json转为字符串
+						itemData := data.Index(i).Interface()
+						if reflect.TypeOf(itemData).Kind() == reflect.Struct {
+							jsonData, _ := json.Marshal(itemData)
+							arrayData = append(arrayData, string(jsonData))
+						} else {
+							arrayData = append(arrayData, fmt.Sprint(itemData))
+						}
 					}
 					value = "[" + strings.Join(arrayData, ",") + "]"
 				} else {
