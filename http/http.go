@@ -36,7 +36,7 @@ func SetClient(c Client) {
 	client = c
 }
 
-type API[Req any, Res any] struct {
+type Request[Req any, Res any] struct {
 	BaseURL     string
 	HTTPMethod  HTTPMethod
 	Route       string
@@ -46,7 +46,7 @@ type API[Req any, Res any] struct {
 	Response    Res
 }
 
-func (api *API[Req, Res]) Do() (Res, error) {
+func (api *Request[Req, Res]) Do() (Res, error) {
 	reqURl := api.BaseURL + api.Route
 	var isFirstQuery = true
 	if api.Method != "" {

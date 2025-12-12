@@ -18,7 +18,7 @@ type UserInfoRes struct {
 }
 
 func GetUserInfo(req *UserInfoReq) (*UserInfoRes, error) {
-	api := &http.API[*UserInfoReq, *UserInfoRes]{
+	api := &http.Request[*UserInfoReq, *UserInfoRes]{
 		AccessToken: types.AccessToken,
 		BaseURL:     types.PanBaseURL,
 		HTTPMethod:  http.GET,

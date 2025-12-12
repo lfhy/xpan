@@ -66,7 +66,7 @@ type FilemetasRes struct {
 }
 
 func Filemetas(req *FilemetasReq) (*FilemetasRes, error) {
-	api := &http.API[*FilemetasReq, *FilemetasRes]{
+	api := &http.Request[*FilemetasReq, *FilemetasRes]{
 		AccessToken: types.AccessToken,
 		BaseURL:     types.PanBaseURL,
 		HTTPMethod:  http.GET,

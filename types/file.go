@@ -20,3 +20,11 @@ const (
 	FileCategoryOther    FileCategory = 6
 	FileCategoryTorrent  FileCategory = 7
 )
+
+type FileCreateRType int
+
+const (
+	FileCreateRTypePathRename          FileCreateRType = 1
+	FileCreateRTypePathBlockListRename FileCreateRType = 2
+	FileCreateRTypePathMove            FileCreateRType = 3
+)

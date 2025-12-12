@@ -24,7 +24,7 @@ type Thumbs struct {
 }
 
 func List(req *ListReq) ([]*ListItem, error) {
-	api := &http.API[*ListReq, *ListRes]{
+	api := &http.Request[*ListReq, *ListRes]{
 		AccessToken: types.AccessToken,
 		BaseURL:     types.PanBaseURL,
 		HTTPMethod:  http.GET,

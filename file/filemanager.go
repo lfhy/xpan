@@ -63,7 +63,7 @@ type FilemanagerRes struct {
 
 // 复制 删除 重命名 移动
 func Filemanager[FileOpItem FileCopyAndMoveItem | FileRenameItem | FileDeleteItem](req *FilemanagerReq[FileOpItem]) (*FilemanagerRes, error) {
-	api := &http.API[*FilemanagerReq[FileOpItem], *FilemanagerRes]{
+	api := &http.Request[*FilemanagerReq[FileOpItem], *FilemanagerRes]{
 		AccessToken: types.AccessToken,
 		BaseURL:     types.PanBaseURL,
 		HTTPMethod:  http.POST,

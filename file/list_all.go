@@ -41,7 +41,7 @@ type ListRes struct {
 }
 
 func ListAll(req *ListAllReq) (*ListRes, error) {
-	api := &http.API[*ListAllReq, *ListRes]{
+	api := &http.Request[*ListAllReq, *ListRes]{
 		AccessToken: types.AccessToken,
 		BaseURL:     types.PanBaseURL,
 		HTTPMethod:  http.GET,
