@@ -1,14 +1,14 @@
 package types
 
 var (
-	ClientId      string
-	ClientSecret  string
-	RedirectUri   = "oob"
-	AccessToken   string
-	RefreshToken  string
-	AuthBaseURL   = "https://openapi.baidu.com"
-	PanBaseURL    = "https://pan.baidu.com"
-	UploadBaseURL = "https://d.pcs.baidu.com"
+	ClientId     string
+	ClientSecret string
+	RedirectUri  = "oob"
+	AccessToken  string
+	RefreshToken string
+	AuthBaseURL  = "https://openapi.baidu.com"
+	PanBaseURL   = "https://pan.baidu.com"
+	PCSBaseURL   = "https://d.pcs.baidu.com"
 )
 
 const (

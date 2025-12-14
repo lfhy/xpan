@@ -35,7 +35,7 @@ type LocateUploadRes struct {
 func LocateUpload(req *LocateUploadReq) (*LocateUploadRes, error) {
 	api := &http.Request[*LocateUploadReq, *LocateUploadRes]{
 		AccessToken: types.AccessToken,
-		BaseURL:     types.UploadBaseURL,
+		BaseURL:     types.PCSBaseURL,
 		HTTPMethod:  http.GET,
 		Method:      "locateupload",
 		Request:     req,
