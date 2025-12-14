@@ -38,3 +38,12 @@ const (
 	CreateModeAutoBackupPhoto CreateMode = 4 // 相册自动备份
 	CreateModeAutoBackupVideo CreateMode = 5 // 视频自动备份
 )
+
+type OndupMode string
+
+const (
+	OndupModeFail      OndupMode = "fail"      //直接返回失败
+	OndupModeNewcopy   OndupMode = "newcopy"   // 重命名文件
+	OndupModeOverwrite OndupMode = "overwrite" // 覆盖同名文件
+	OndupModeSkip      OndupMode = "skip"      // 跳过
+)

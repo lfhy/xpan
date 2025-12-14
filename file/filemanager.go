@@ -35,20 +35,11 @@ type FileRenameItem struct {
 
 type FileDeleteItem string
 
-type OndupMode string
-
-const (
-	OndupModeFail      OndupMode = "fail"      //直接返回失败
-	OndupModeNewcopy   OndupMode = "newcopy"   // 重命名文件
-	OndupModeOverwrite OndupMode = "overwrite" // 覆盖同名文件
-	OndupModeSkip      OndupMode = "skip"      // 跳过
-)
-
 type FilemanagerReq[FileOpItem FileCopyAndMoveItem | FileRenameItem | FileDeleteItem] struct {
-	Opera    FileOp       `query:"opera"`   // move/copy/rename/delete
-	Async    AsyncMode    `query:"async"`   // 异步模式
-	Filelist []FileOpItem `body:"filelist"` // 操作文件列表
-	Ondup    OndupMode    `body:"ondup"`    // 遇到重复文件的处理策略
+	Opera    FileOp          `query:"opera"`   // move/copy/rename/delete
+	Async    AsyncMode       `query:"async"`   // 异步模式
+	Filelist []FileOpItem    `body:"filelist"` // 操作文件列表
+	Ondup    types.OndupMode `body:"ondup"`    // 遇到重复文件的处理策略
 }
 
 type FilemanagerItem struct {
