@@ -28,3 +28,13 @@ const (
 	FileCreateRTypePathBlockListRename FileCreateRType = 2
 	FileCreateRTypePathMove            FileCreateRType = 3
 )
+
+type CreateMode int
+
+const (
+	CreateModeUserUpload      CreateMode = 1 // 手动上传
+	CreateModeUserMultiUpload CreateMode = 2 // 批量上传
+	CreateModeAutoBackupFile  CreateMode = 3 // 文件自动备份
+	CreateModeAutoBackupPhoto CreateMode = 4 // 相册自动备份
+	CreateModeAutoBackupVideo CreateMode = 5 // 视频自动备份
+)

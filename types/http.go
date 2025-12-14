@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func GetReqParams(req any) (query string, body io.Reader) {
+func GetReqParams(req any) (query string, body io.Reader, file io.Reader) {
 	if req == nil {
 		return
 	}
@@ -46,6 +46,7 @@ func GetReqParams(req any) (query string, body io.Reader) {
 				continue
 			}
 			params.Add(query, value)
+			continue
 		}
 		body := field.Tag.Get("body")
 		if body != "" {
@@ -72,6 +73,17 @@ func GetReqParams(req any) (query string, body io.Reader) {
 				continue
 			}
 			bodys.Add(body, value)
+			continue
+		}
+		fileBody := field.Tag.Get("file")
+		if fileBody != "" {
+			value := reflect.ValueOf(req).Field(i).Interface()
+			if value != nil {
+				fileReader, ok := value.(io.Reader)
+				if ok {
+					file = fileReader
+				}
+			}
 		}
 	}
 	query = params.Encode()

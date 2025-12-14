@@ -1,8 +1,10 @@
 package http
 
 import (
+	"bytes"
 	"encoding/json"
 	"io"
+	"mime/multipart"
 	"net/http"
 
 	"github.com/lfhy/baidu-pan-client/log"
@@ -68,7 +70,7 @@ func (api *Request[Req, Res]) Do() (Res, error) {
 		}
 		reqURl += "access_token=" + api.AccessToken
 	}
-	query, body := types.GetReqParams(api.Request)
+	query, body, file := types.GetReqParams(api.Request)
 	if query != "" {
 		if isFirstQuery {
 			isFirstQuery = false
@@ -78,12 +80,27 @@ func (api *Request[Req, Res]) Do() (Res, error) {
 		}
 		reqURl += query
 	}
+
+	contentType := "application/x-www-form-urlencoded"
+	if file != nil {
+		bodyBuf := &bytes.Buffer{}
+		bodyWriter := multipart.NewWriter(bodyBuf)
+		fileWriter, err := bodyWriter.CreateFormFile("file", "file")
+		if err != nil {
+			var res Res
+			return res, err
+		}
+		io.Copy(fileWriter, file)
+		bodyWriter.Close()
+		contentType = bodyWriter.FormDataContentType()
+		body = bodyBuf
+	}
 	log.Println("API Request:", reqURl)
 	req, err := http.NewRequest(string(api.HTTPMethod), reqURl, body)
 	if err != nil {
 		return api.Response, err
 	}
-	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Add("Content-Type", contentType)
 	req.Header.Add("User-Agent", "pan.baidu.com")
 	resp, err := GetClient().Do(req)
 	if err != nil {

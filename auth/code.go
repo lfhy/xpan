@@ -11,6 +11,6 @@ type AuthCodeReq struct {
 }
 
 func GetAuthCodeURL(req *AuthCodeReq) string {
-	query, _ := types.GetReqParams(req)
+	query, _, _ := types.GetReqParams(req)
 	return types.AuthBaseURL + types.AuthRoute + "?" + query
 }
