@@ -31,3 +31,20 @@ func GetToken(req *GetTokenReq) (*GetTokenRes, error) {
 	}
 	return api.Do()
 }
+
+type RefreshTokenReq struct {
+	ClientId     string `query:"client_id" default:"$CLIENT_ID"`
+	ClientSecret string `query:"client_secret" default:"$CLIENT_SECRET"`
+	GrantType    string `query:"grant_type" default:"refresh_token"`
+	RefreshToken string `query:"refresh_token" default:"$REFRESH_TOKEN"`
+}
+
+func RefreshToken(req *RefreshTokenReq) (*GetTokenRes, error) {
+	api := http.Request[*RefreshTokenReq, *GetTokenRes]{
+		BaseURL:    types.AuthBaseURL,
+		Route:      types.TokenRoute,
+		HTTPMethod: http.GET,
+		Request:    req,
+	}
+	return api.Do()
+}

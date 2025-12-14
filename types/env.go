@@ -30,6 +30,10 @@ func getENV(key string) string {
 		return ClientSecret
 	case "$REDIRECT_URI":
 		return RedirectUri
+	case "$ACCESS_TOKEN":
+		return AccessToken
+	case "$REFRESH_TOKEN":
+		return RefreshToken
 	default:
 		return key
 	}
