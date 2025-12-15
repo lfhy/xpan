@@ -35,10 +35,33 @@ func (c *Client) GetObject(path string) (io.ReadCloser, error) {
 	return file.Download(res.Dlink)
 }
 
+func (c *Client) GetObjectRange(path string, start, end types.SizeB) (io.ReadCloser, error) {
+	res, err := c.StatObject(path)
+	if err != nil {
+		return nil, err
+	}
+	// 判断读取是否大于50M
+	if end-start > types.SizeMB(50).ToB() {
+		// 大于50M则需要分块下载
+		return &FileReader{
+			client:  c,
+			size:    res.Size,
+			meta:    res,
+			nowRead: start,
+			endRead: end,
+		}, nil
+	}
+	return file.Download(res.Dlink, file.DownloadRange{
+		Start: start,
+		End:   end,
+	})
+}
+
 type FileReader struct {
 	client  *Client
 	size    types.SizeB
 	nowRead types.SizeB
+	endRead types.SizeB
 	meta    *file.FilemetasItem
 	buffer  []byte
 	bufPos  int
@@ -50,8 +73,13 @@ func (d *FileReader) Read(p []byte) (n int, err error) {
 	if d.bufPos >= d.bufLen {
 		// 计算下次需要读取的数据范围
 		remaining := d.size - d.nowRead
-		if remaining <= 0 {
+		if remaining <= 0 || d.nowRead >= d.endRead {
 			return 0, io.EOF
+		}
+		
+		// 确保不超过endRead限定的位置
+		if d.nowRead + remaining > d.endRead {
+			remaining = d.endRead - d.nowRead
 		}
 
 		// 每次最多下载50MB
@@ -95,4 +123,32 @@ func (d *FileReader) Read(p []byte) (n int, err error) {
 
 func (d *FileReader) Close() error {
 	return nil
+}
+
+func (d *FileReader) Seek(offset int64, whence int) (int64, error) {
+	var newPos int64
+	
+	switch whence {
+	case io.SeekStart:
+		newPos = offset
+	case io.SeekCurrent:
+		newPos = int64(d.nowRead) + offset
+	case io.SeekEnd:
+		newPos = int64(d.size) + offset
+	default:
+		return 0, errors.New("invalid whence")
+	}
+	
+	// 确保newPos不小于0且不大于endRead
+	if newPos < 0 {
+		return 0, errors.New("negative position")
+	}
+	
+	// 如果设置了endRead，则不能超过这个位置
+	if newPos > int64(d.endRead) {
+		newPos = int64(d.endRead)
+	}
+	
+	d.nowRead = types.SizeB(newPos)
+	return int64(d.nowRead), nil
 }
