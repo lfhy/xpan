@@ -2,6 +2,7 @@ package file
 
 import (
 	"io"
+	"strings"
 
 	"github.com/lfhy/xpan/http"
 	"github.com/lfhy/xpan/types"
@@ -26,6 +27,9 @@ type UploadRes struct {
 // 上传文件大小上限为2GB
 // 此接口可能有一定限制，推荐使用主流接口分片上传
 func Upload(req *UploadReq, uploadHost string) (*UploadRes, error) {
+	if !strings.HasPrefix(uploadHost, "http") {
+		uploadHost = "https://" + uploadHost
+	}
 	api := &http.Request[*UploadReq, *UploadRes]{
 		AccessToken: types.AccessToken,
 		BaseURL:     uploadHost,
