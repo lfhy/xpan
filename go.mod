@@ -2,7 +2,10 @@ module github.com/lfhy/xpan
 
 go 1.23.6
 
-require github.com/lfhy/flag v0.1.3
+require (
+	github.com/lfhy/flag v0.1.3
+	golang.org/x/time v0.1.0
+)
 
 require (
 	github.com/fsnotify/fsnotify v1.6.0 // indirect

@@ -2,14 +2,17 @@ package http
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"io"
 	"mime/multipart"
 	"net/http"
+	"sync"
 
 	"github.com/lfhy/xpan/log"
 
 	"github.com/lfhy/xpan/types"
+	"golang.org/x/time/rate"
 )
 
 type HTTPMethod string
@@ -26,6 +29,21 @@ type Client interface {
 }
 
 var client Client
+
+// 用于存储每个接口的限流器
+var limiters = sync.Map{}
+
+// 获取指定接口的限流器
+func getLimiter(route, method string) *rate.Limiter {
+	key := route + "|" + method
+	limiter, ok := limiters.Load(key)
+	if !ok {
+		// 每分钟10个请求
+		limiter, _ = limiters.LoadOrStore(key, rate.NewLimiter(rate.Limit(float64(10)/60), 10))
+		return limiter.(*rate.Limiter)
+	}
+	return limiter.(*rate.Limiter)
+}
 
 func GetClient() Client {
 	if client == nil {
@@ -49,6 +67,15 @@ type Request[Req any, Res any] struct {
 }
 
 func (api *Request[Req, Res]) Do() (Res, error) {
+	// 应用限流控制
+	limiter := getLimiter(api.Route, api.Method)
+	// 等待直到有可用的令牌
+	ctx := context.Background()
+	if err := limiter.Wait(ctx); err != nil {
+		var res Res
+		return res, err
+	}
+
 	reqURl := api.BaseURL + api.Route
 	var isFirstQuery = true
 	if api.Method != "" {
