@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	"github.com/lfhy/xpan/types"
 
@@ -17,6 +18,9 @@ type DownloadRange struct {
 
 // 获取下载链接
 func DownloadUrl(dlink string) string {
+	if strings.HasPrefix(dlink, "http") {
+		return dlink + "&access_token=" + types.AccessToken
+	}
 	return types.PCSBaseURL + dlink + "&access_token=" + types.AccessToken
 }
 
