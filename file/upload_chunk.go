@@ -2,6 +2,7 @@ package file
 
 import (
 	"io"
+	"strings"
 
 	"github.com/lfhy/baidu-pan-client/http"
 	"github.com/lfhy/baidu-pan-client/types"
@@ -21,6 +22,9 @@ type UploadChunkRes struct {
 
 // 上传主机名通过locate_upload接口获取
 func UploadChunk(req *UploadChunkReq, uploadHost string) (*UploadChunkRes, error) {
+	if !strings.HasPrefix(uploadHost, "http") {
+		uploadHost = "https://" + uploadHost
+	}
 	api := &http.Request[*UploadChunkReq, *UploadChunkRes]{
 		AccessToken: types.AccessToken,
 		BaseURL:     uploadHost,

@@ -11,8 +11,8 @@ import (
 )
 
 type DownloadRange struct {
-	Start int64
-	End   int64
+	Start types.SizeB
+	End   types.SizeB
 }
 
 // 获取下载链接
