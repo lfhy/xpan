@@ -27,9 +27,9 @@ func GetLogger() Log {
 }
 
 func Printf(format string, v ...interface{}) {
-	Logger.Printf(format, v...)
+	GetLogger().Printf(format, v...)
 }
 
 func Println(v ...interface{}) {
-	Logger.Println(v...)
+	GetLogger().Println(v...)
 }
