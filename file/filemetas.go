@@ -20,7 +20,7 @@ type FilemetasReq struct {
 type FilemetasItem struct {
 	FsId        uint64             `json:"fs_id"`        // 文件在云端的唯一标识ID
 	Category    types.FileCategory `json:"category"`     //	文件类型，1 视频、2 音频、3 图片、4 文档、5 应用、6 其他、7 种子
-	Dlink       string             `json:"dlink"`        // 	文件下载地址，参考下载文档进行下载操作。注意unicode解码处理。
+	Dlink       string             `json:"dlink"`        // 文件下载地址，参考下载文档进行下载操作。注意unicode解码处理。
 	Filename    string             `json:"filename"`     // 文件名
 	IsDir       types.BoolInt      `json:"isdir"`        //	是否为目录，0 文件、1 目录
 	ServerMtime types.Time         `json:"server_mtime"` //	文件在服务器修改时间

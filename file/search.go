@@ -16,7 +16,7 @@ type SearchReq struct {
 }
 
 type SearchRes struct {
-	HasMore types.BoolInt `json:"has_more"` //	是否还有下一页，0表示无，1表示有
+	HasMore types.BoolInt `json:"has_more"` // 是否还有下一页，0表示无，1表示有
 	List    []*ListItem   `json:"list"`     // 文件列表
 }
 

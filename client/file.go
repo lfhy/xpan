@@ -150,3 +150,17 @@ func (c *Client) RenameObject(srcFilePath string, newName string) (*file.Fileman
 	}
 	return res.List[0], nil
 }
+
+func (c *Client) DeleteObject(srcFilePath string) (*file.FilemanagerItem, error) {
+	res, err := file.Filemanager(&file.FilemanagerReq[file.FileDeleteItem]{
+		Filelist: []file.FileDeleteItem{file.FileDeleteItem(srcFilePath)},
+		Opera:    file.Delete,
+	})
+	if err != nil {
+		return nil, err
+	}
+	if len(res.List) == 0 {
+		return nil, errors.New("delete object failed")
+	}
+	return res.List[0], nil
+}

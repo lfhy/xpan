@@ -9,7 +9,7 @@ import (
 )
 
 type UploadChunkReq struct {
-	Type     string    `query:"type" default:"tmpfile"` //	固定值 tmpfile
+	Type     string    `query:"type" default:"tmpfile"` // 固定值 tmpfile
 	Path     string    `query:"path"`                   // 上传后使用的文件绝对路径，需要与上一个阶段预上传precreate接口中的path保持一致
 	UploadId string    `query:"uploadid"`               // 上一个阶段预上传precreate接口下发的uploadid
 	PartSeq  int       `query:"partseq"`                // 文件分片的位置序号，从0开始，参考上一个阶段预上传precreate接口返回的block_list
