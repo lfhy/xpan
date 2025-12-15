@@ -11,21 +11,10 @@ import (
 
 func (c *Client) GetPathFsid(path string) (uint64, error) {
 	dir := filepath.Dir(path)
-	var req file.ListAllReq
-	for {
-		res, err := c.ListObjects(dir, &req)
-		if err != nil {
-			return 0, err
+	for file := range c.ListObjectsCursor(dir) {
+		if file.Path == path {
+			return file.FsId, nil
 		}
-		for _, list := range res.List {
-			if list.Path == path {
-				return list.FsId, nil
-			}
-		}
-		if res.HasMore == types.BoolIntFalse {
-			break
-		}
-		req.Start = res.Cursor
 	}
 	return 0, errors.New("file not found")
 }

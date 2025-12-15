@@ -2,6 +2,7 @@ package client
 
 import (
 	"errors"
+	"log"
 	"path/filepath"
 
 	"github.com/lfhy/xpan/file"
@@ -18,6 +19,41 @@ func (c *Client) ListObjects(dir string, opt ...*file.ListAllReq) (*file.ListRes
 	}
 	req.Path = dir
 	return file.ListAll(req)
+}
+
+func (c *Client) ListObjectsCursor(dir string, opt ...*file.ListAllReq) <-chan *file.ListItem {
+	var req *file.ListAllReq
+	if len(opt) > 0 {
+		req = opt[0]
+	}
+	if req == nil {
+		req = &file.ListAllReq{}
+	}
+	req.Path = dir
+
+	resultChan := make(chan *file.ListItem)
+
+	go func() {
+		defer close(resultChan)
+		for {
+			res, err := c.ListObjects(dir, req)
+			if err != nil {
+				log.Println("ListObjectsCursor:", err)
+				return
+			}
+
+			for _, item := range res.List {
+				resultChan <- item
+			}
+
+			if res.HasMore == types.BoolIntFalse {
+				break
+			}
+			req.Start = res.Cursor
+		}
+	}()
+
+	return resultChan
 }
 
 func (c *Client) StatObject(path string) (*file.FilemetasItem, error) {
