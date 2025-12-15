@@ -1,8 +1,8 @@
 package client
 
 import (
-	"github.com/lfhy/baidu-pan-client/auth"
-	"github.com/lfhy/baidu-pan-client/utils"
+	"github.com/lfhy/xpan/auth"
+	"github.com/lfhy/xpan/utils"
 )
 
 type Client struct {

@@ -8,8 +8,8 @@ import (
 
 	glog "log"
 
-	"github.com/lfhy/baidu-pan-client/log"
-	"github.com/lfhy/baidu-pan-client/types"
+	"github.com/lfhy/xpan/log"
+	"github.com/lfhy/xpan/types"
 )
 
 type TestLogger struct {
@@ -74,7 +74,7 @@ func dereferenceValue(v reflect.Value) interface{} {
 		}
 		// 解引用指针
 		return dereferenceValue(v.Elem())
-		
+
 	case reflect.Struct:
 		// 处理结构体，递归处理每个字段
 		result := make(map[string]interface{})
@@ -90,7 +90,7 @@ func dereferenceValue(v reflect.Value) interface{} {
 			result[fieldName] = dereferenceValue(field)
 		}
 		return result
-		
+
 	case reflect.Slice:
 		// 处理切片
 		if v.Len() == 0 {
@@ -102,7 +102,7 @@ func dereferenceValue(v reflect.Value) interface{} {
 			result[i] = dereferenceValue(v.Index(i))
 		}
 		return result
-		
+
 	case reflect.Array:
 		// 处理数组
 		if v.Len() == 0 {
@@ -113,7 +113,7 @@ func dereferenceValue(v reflect.Value) interface{} {
 			result[i] = dereferenceValue(v.Index(i))
 		}
 		return result
-		
+
 	case reflect.Map:
 		// 处理映射
 		result := make(map[interface{}]interface{})
@@ -121,7 +121,7 @@ func dereferenceValue(v reflect.Value) interface{} {
 			result[key.Interface()] = dereferenceValue(v.MapIndex(key))
 		}
 		return result
-		
+
 	default:
 		// 其他类型直接返回值
 		return v.Interface()

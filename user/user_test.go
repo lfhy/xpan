@@ -3,8 +3,8 @@ package user_test
 import (
 	"testing"
 
-	"github.com/lfhy/baidu-pan-client/test"
-	"github.com/lfhy/baidu-pan-client/user"
+	"github.com/lfhy/xpan/test"
+	"github.com/lfhy/xpan/user"
 )
 
 func TestGetUserInfo(t *testing.T) {

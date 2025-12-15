@@ -7,9 +7,9 @@ import (
 	"mime/multipart"
 	"net/http"
 
-	"github.com/lfhy/baidu-pan-client/log"
+	"github.com/lfhy/xpan/log"
 
-	"github.com/lfhy/baidu-pan-client/types"
+	"github.com/lfhy/xpan/types"
 )
 
 type HTTPMethod string

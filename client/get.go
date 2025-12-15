@@ -5,8 +5,8 @@ import (
 	"io"
 	"path/filepath"
 
-	"github.com/lfhy/baidu-pan-client/file"
-	"github.com/lfhy/baidu-pan-client/types"
+	"github.com/lfhy/xpan/file"
+	"github.com/lfhy/xpan/types"
 )
 
 func (c *Client) GetPathFsid(path string) (uint64, error) {

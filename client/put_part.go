@@ -3,8 +3,8 @@ package client
 import (
 	"io"
 
-	"github.com/lfhy/baidu-pan-client/file"
-	"github.com/lfhy/baidu-pan-client/types"
+	"github.com/lfhy/xpan/file"
+	"github.com/lfhy/xpan/types"
 )
 
 func (c *Client) InitMultiPartUpload(path string, size types.SizeB, blockList ...string) (*file.PreCreateRes, error) {

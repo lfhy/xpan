@@ -1,4 +1,4 @@
-module github.com/lfhy/baidu-pan-client
+module github.com/lfhy/xpan
 
 go 1.23.6
 

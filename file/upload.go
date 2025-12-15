@@ -3,8 +3,8 @@ package file
 import (
 	"io"
 
-	"github.com/lfhy/baidu-pan-client/http"
-	"github.com/lfhy/baidu-pan-client/types"
+	"github.com/lfhy/xpan/http"
+	"github.com/lfhy/xpan/types"
 )
 
 type UploadReq struct {

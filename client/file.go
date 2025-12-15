@@ -4,8 +4,8 @@ import (
 	"errors"
 	"path/filepath"
 
-	"github.com/lfhy/baidu-pan-client/file"
-	"github.com/lfhy/baidu-pan-client/types"
+	"github.com/lfhy/xpan/file"
+	"github.com/lfhy/xpan/types"
 )
 
 func (c *Client) ListObjects(dir string, opt ...*file.ListAllReq) (*file.ListRes, error) {

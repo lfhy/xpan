@@ -1,6 +1,6 @@
 package file
 
-import "github.com/lfhy/baidu-pan-client/types"
+import "github.com/lfhy/xpan/types"
 
 func Mkdir(path string) (*CreateRes, error) {
 	return Create(&CreateReq{

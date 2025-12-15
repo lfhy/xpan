@@ -5,9 +5,9 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/lfhy/baidu-pan-client/types"
+	"github.com/lfhy/xpan/types"
 
-	phttp "github.com/lfhy/baidu-pan-client/http"
+	phttp "github.com/lfhy/xpan/http"
 )
 
 type DownloadRange struct {

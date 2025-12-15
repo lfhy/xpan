@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/lfhy/baidu-pan-client/auth"
-	"github.com/lfhy/baidu-pan-client/test"
+	"github.com/lfhy/xpan/auth"
+	"github.com/lfhy/xpan/test"
 )
 
 func TestGetAuthReq(t *testing.T) {

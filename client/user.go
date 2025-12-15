@@ -1,8 +1,8 @@
 package client
 
 import (
-	"github.com/lfhy/baidu-pan-client/user"
-	"github.com/lfhy/baidu-pan-client/utils"
+	"github.com/lfhy/xpan/user"
+	"github.com/lfhy/xpan/utils"
 )
 
 func (c *Client) Quota(req ...*user.QuotaReq) (*user.QuotaRes, error) {

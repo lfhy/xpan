@@ -1,6 +1,6 @@
 package auth
 
-import "github.com/lfhy/baidu-pan-client/types"
+import "github.com/lfhy/xpan/types"
 
 type AuthCodeReq struct {
 	ResponseType string `query:"response_type" default:"code"`

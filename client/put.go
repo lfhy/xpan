@@ -3,9 +3,9 @@ package client
 import (
 	"io"
 
-	"github.com/lfhy/baidu-pan-client/file"
-	"github.com/lfhy/baidu-pan-client/types"
-	"github.com/lfhy/baidu-pan-client/utils"
+	"github.com/lfhy/xpan/file"
+	"github.com/lfhy/xpan/types"
+	"github.com/lfhy/xpan/utils"
 )
 
 func (c *Client) Mkdir(path string) (*file.CreateRes, error) {
