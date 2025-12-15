@@ -11,7 +11,7 @@ import (
 
 func (c *Client) GetPathFsid(path string) (uint64, error) {
 	dir := filepath.Dir(path)
-	for file := range c.ListObjectsCursor(dir) {
+	for file := range c.ListObjectsStream(dir) {
 		if file.Path == path {
 			return file.FsId, nil
 		}

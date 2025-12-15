@@ -21,7 +21,7 @@ func (c *Client) ListObjects(dir string, opt ...*file.ListAllReq) (*file.ListRes
 	return file.ListAll(req)
 }
 
-func (c *Client) ListObjectsCursor(dir string, opt ...*file.ListAllReq) <-chan *file.ListItem {
+func (c *Client) ListObjectsStream(dir string, opt ...*file.ListAllReq) <-chan *file.ListItem {
 	var req *file.ListAllReq
 	if len(opt) > 0 {
 		req = opt[0]
